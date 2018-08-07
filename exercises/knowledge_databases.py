@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 engine = create_engine('sqlite:///knowledge.db')
-Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)	
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
@@ -13,21 +13,43 @@ def add_article(article_name, topic, rating):
 		article_name = article_name,
 		topic = topic,
 		rating = rating)
-		session.add(My_knowledge)
-		session.commit()
-add_article("dance", "dancing and personalities", 7 )
+	session.add(My_knowledge)
+	session.commit()
+
 
 def query_all_articles():
-	pass
+	knowledge = session.query(Knowledge).all()
+	return knowledge
+	
 
-def query_article_by_topic():
-	pass
+def query_article_by_topic(their_topic):
+	knowledge = session.query(Knowledge).filter_by(topic=their_topic).first()
+	return knowledge
 
-def delete_article_by_topic():
-	pass
+def delete_article_by_topic(topic):
+	session.query(Knowledge).filter_by(topic=topic).delete()
+	session.commit()
 
 def delete_all_articles():
-	pass
+	session.query(Knowledge).delete()
+	session.commit()
+
+def edit_rating(updated_rating, article_title):
+	knowledge_object = session.query(
+		Knowledge).filter_by(article_name=article_title)
+	knowledge_object.rating=updated_rating
+	session.commit()
+
 
 def edit_article_rating():
-	pass
+	
+	
+
+# add_article("dance", "dancing and personalities", 7 )
+edit_rating()
+print(query_all_articles())
+(query_article_by_topic("dancing and peersonalities"))
+delete_article_by_topic("dancing and peersonalities")
+delete_all_articles()
+
+
