@@ -41,15 +41,21 @@ def edit_rating(updated_rating, article_title):
 	session.commit()
 
 
-def edit_article_rating():
-	
-	
+def edit_article_rating():	
+	pass
+
+def delete_article_by_rating(threshold):
+	session.query(Knowledge).filter(Knowledge.rating<threshold).delete()
+	session.commit()
+
 
 # add_article("dance", "dancing and personalities", 7 )
-edit_rating()
+edit_rating(9,"dance")
 print(query_all_articles())
 (query_article_by_topic("dancing and peersonalities"))
 delete_article_by_topic("dancing and peersonalities")
 delete_all_articles()
+delete_article_by_rating(10)
+
 
 
